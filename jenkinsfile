@@ -8,7 +8,7 @@ pipeline {
 			 steps{
                 script{
 					sqlconnection().execute'''
-							CREATE TABLE KH255051.departments (
+							CREATE TABLE departments_final (
 								department_id INT NOT NULL PRIMARY KEY,
 								department_name VARCHAR (30) NOT NULL,
 								location INT DEFAULT NULL);
@@ -16,7 +16,7 @@ pipeline {
 						
 
 					sqlconnection().execute'''
-							CREATE TABLE KH255051.jobs (
+							CREATE TABLE jobs_final (
 								job_id INT NOT NULL GENERATED ALWAYS AS IDENTITY
 								(START WITH 1 
 								INCREMENT BY 1 
@@ -30,7 +30,7 @@ pipeline {
 						
 						
 					sqlconnection().execute'''
-						CREATE TABLE KH255051_Employeedb.employees (
+						CREATE TABLE employees_final (
 							employee_id INT NOT NULL PRIMARY KEY,
 							name_prefix VARCHAR (20) DEFAULT NULL,
 							first_name VARCHAR (20) DEFAULT NULL,
