@@ -7,15 +7,7 @@ pipeline {
 		stage('Create final tables'){
 			 steps{
                 script{
-					sqlconnection().execute'''
-							drop table employees_final;
-							'''
-					sqlconnection().execute'''
-							drop table departments_final;
-							'''
-					sqlconnection().execute'''
-							drop table jobs_final;
-							'''
+					
 					
 					sqlconnection().execute'''
 							CREATE TABLE departments_final (
