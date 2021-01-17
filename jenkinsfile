@@ -8,6 +8,16 @@ pipeline {
 			 steps{
                 script{
 					sqlconnection().execute'''
+							drop table employees_final;
+							'''
+					sqlconnection().execute'''
+							drop table departments_final;
+							'''
+					sqlconnection().execute'''
+							drop table jobs_final;
+							'''
+					
+					sqlconnection().execute'''
 							CREATE TABLE departments_final (
 								department_id INT NOT NULL PRIMARY KEY,
 								department_name VARCHAR (30) NOT NULL,
@@ -34,7 +44,6 @@ pipeline {
 							email VARCHAR (100) NOT NULL,
 							father_name VARCHAR (100) DEFAULT NULL,
 							mother_name VARCHAR (100) DEFAULT NULL,
-							mother_maiden_name VARCHAR (100) DEFAULT NULL,
 							dob DATE DEFAULT NULL,
 							age DECIMAL (8, 2) DEFAULT NULL,
 							weight DECIMAL (8, 2) DEFAULT NULL,
