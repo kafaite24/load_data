@@ -17,12 +17,7 @@ pipeline {
 
 					sqlconnection().execute'''
 							CREATE TABLE jobs_final (
-								job_id INT NOT NULL GENERATED ALWAYS AS IDENTITY
-								(START WITH 1 
-								INCREMENT BY 1 
-								MINVALUE 1 
-								MAXVALUE 2147483645 
-								NO CYCLE) PRIMARY KEY,
+								job_id INT NOT NULL PRIMARY KEY,
 								job_title VARCHAR (35) NOT NULL,
 								min_salary DECIMAL (8, 2) DEFAULT NULL,
 								max_salary DECIMAL (8, 2) DEFAULT NULL);
@@ -34,7 +29,6 @@ pipeline {
 							employee_id INT NOT NULL PRIMARY KEY,
 							name_prefix VARCHAR (20) DEFAULT NULL,
 							first_name VARCHAR (20) DEFAULT NULL,
-							middle_initial VARCHAR (20) DEFAULT NULL,
 							last_name VARCHAR (25) NOT NULL,
 							gender VARCHAR (20) DEFAULT NULL,
 							email VARCHAR (100) NOT NULL,
@@ -45,10 +39,6 @@ pipeline {
 							age DECIMAL (8, 2) DEFAULT NULL,
 							weight DECIMAL (8, 2) DEFAULT NULL,
 							hire_date DATE NOT NULL,
-							half_of_joining VARCHAR (20) DEFAULT NULL,
-							year_of_joining int DEFAULT NULL,
-							month_of_joining int DEFAULT NULL,
-							month_name_joining VARCHAR (20) DEFAULT NULL,
 							age_in_company DECIMAL (8, 2) DEFAULT NULL,
 							salary DECIMAL (8, 2) DEFAULT NULL,
 							SSN VARCHAR (20) DEFAULT NULL,
