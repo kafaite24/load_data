@@ -11,7 +11,7 @@ pipeline {
 							CREATE TABLE departments_final (
 								department_id INT NOT NULL PRIMARY KEY,
 								department_name VARCHAR (30) NOT NULL,
-								location INT DEFAULT NULL);
+								location VARCHAR (100) DEFAULT NULL);
 							'''
 						
 
