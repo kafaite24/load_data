@@ -74,7 +74,7 @@ pipeline {
 					'''
 					sqlconnection().execute'''
 						INSERT INTO jobs_final
-						SELECT * FROM departments
+						SELECT * FROM jobs
 					'''
 					sqlconnection().execute'''
 						INSERT INTO employees_final
