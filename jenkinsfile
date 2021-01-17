@@ -64,8 +64,8 @@ pipeline {
 							manager_id INT DEFAULT NULL,
 							department_id INT DEFAULT NULL,
 							quarter_of_joining VARCHAR (20) DEFAULT NULL,
-							FOREIGN KEY (job_id) REFERENCES jobs (job_id),
-							FOREIGN KEY (department_id) REFERENCES departments (department_id),
+							FOREIGN KEY (job_id) REFERENCES jobs_final (job_id),
+							FOREIGN KEY (department_id) REFERENCES departments_final (department_id),
 							FOREIGN KEY (manager_id) REFERENCES employees_final (employee_id)
 					);
 						'''
@@ -73,7 +73,24 @@ pipeline {
 					}
 				}
 		}
+		stage('Load data into final tables'){
+			 steps{
+                script{
 	
+					sqlconnection().execute'''
+						INSERT INTO departments_final
+						SELECT * FROM departments
+					'''
+					sqlconnection().execute'''
+						INSERT INTO jobs_final
+						SELECT * FROM departments
+					'''
+					sqlconnection().execute'''
+						INSERT INTO employees_final
+						SELECT * FROM staff_u;
+					'''
+					
+		}}}
 		
 		}
 	
