@@ -39,7 +39,7 @@ pipeline {
 								department_id INT NOT NULL PRIMARY KEY,
 								department_name VARCHAR (30) NOT NULL,
 								location VARCHAR (100) DEFAULT NULL),
-								DateAdded Date
+								DateAdded Date);
 							'''
 						
 
@@ -48,8 +48,8 @@ pipeline {
 								job_id INT NOT NULL PRIMARY KEY,
 								job_title VARCHAR (35) NOT NULL,
 								min_salary DECIMAL (8, 2) DEFAULT NULL,
-								max_salary DECIMAL (8, 2) DEFAULT NULL),
-								DateAdded Date;
+								max_salary DECIMAL (8, 2) DEFAULT NULL,
+								DateAdded Date;);
 							'''
 						
 						
