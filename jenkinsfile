@@ -38,7 +38,7 @@ pipeline {
 							CREATE TABLE departments_prod (
 								department_id INT NOT NULL PRIMARY KEY,
 								department_name VARCHAR (30) NOT NULL,
-								location VARCHAR (100) DEFAULT NULL),
+								location VARCHAR (100) DEFAULT NULL,
 								DateAdded Date);
 							'''
 						
