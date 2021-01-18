@@ -7,7 +7,32 @@ pipeline {
 		stage('Create final tables'){
 			 steps{
                 script{
+					sqlconnection().eachRow("SELECT COUNT(*) as output FROM dbc.TABLES WHERE TABLENAME = 'employees_final' and databasename='KH255051'") { row ->
+					def table= "$row.output"
+				
+					if("${table}"=="1"){
+						sqlconnection().execute'''
+							drop table employees_final
+						'''
+					}}
 					
+					sqlconnection().eachRow("SELECT COUNT(*) as output FROM dbc.TABLES WHERE TABLENAME = 'departments_final' and databasename='KH255051'") { row ->
+					def table= "$row.output"
+			
+					if("${table}"=="1"){
+						sqlconnection().execute'''
+							drop table departments_final
+						'''
+					}}
+					
+					sqlconnection().eachRow("SELECT COUNT(*) as output FROM dbc.TABLES WHERE TABLENAME = 'jobs_final' and databasename='KH255051'") { row ->
+					def table= "$row.output"
+			
+					if("${table}"=="1"){
+						sqlconnection().execute'''
+							drop table jobs_final
+						'''
+					}}
 					
 					sqlconnection().execute'''
 							CREATE TABLE departments_final (
