@@ -7,35 +7,35 @@ pipeline {
 		stage('Create final tables'){
 			 steps{
                 script{
-					sqlconnection().eachRow("SELECT COUNT(*) as output FROM dbc.TABLES WHERE TABLENAME = 'employees_final' and databasename='KH255051'") { row ->
+					sqlconnection().eachRow("SELECT COUNT(*) as output FROM dbc.TABLES WHERE TABLENAME = 'employees_prod' and databasename='KH255051'") { row ->
 					def table= "$row.output"
 				
 					if("${table}"=="1"){
 						sqlconnection().execute'''
-							drop table employees_final
+							drop table employees_prod
 						'''
 					}}
 					
-					sqlconnection().eachRow("SELECT COUNT(*) as output FROM dbc.TABLES WHERE TABLENAME = 'departments_final' and databasename='KH255051'") { row ->
+					sqlconnection().eachRow("SELECT COUNT(*) as output FROM dbc.TABLES WHERE TABLENAME = 'departments_prod' and databasename='KH255051'") { row ->
 					def table= "$row.output"
 			
 					if("${table}"=="1"){
 						sqlconnection().execute'''
-							drop table departments_final
+							drop table departments_prod
 						'''
 					}}
 					
-					sqlconnection().eachRow("SELECT COUNT(*) as output FROM dbc.TABLES WHERE TABLENAME = 'jobs_final' and databasename='KH255051'") { row ->
+					sqlconnection().eachRow("SELECT COUNT(*) as output FROM dbc.TABLES WHERE TABLENAME = 'jobs_prod' and databasename='KH255051'") { row ->
 					def table= "$row.output"
 			
 					if("${table}"=="1"){
 						sqlconnection().execute'''
-							drop table jobs_final
+							drop table jobs_prod
 						'''
 					}}
 					
 					sqlconnection().execute'''
-							CREATE TABLE departments_final (
+							CREATE TABLE departments_prod (
 								department_id INT NOT NULL PRIMARY KEY,
 								department_name VARCHAR (30) NOT NULL,
 								location VARCHAR (100) DEFAULT NULL);
@@ -43,7 +43,7 @@ pipeline {
 						
 
 					sqlconnection().execute'''
-							CREATE TABLE jobs_final (
+							CREATE TABLE jobs_prod (
 								job_id INT NOT NULL PRIMARY KEY,
 								job_title VARCHAR (35) NOT NULL,
 								min_salary DECIMAL (8, 2) DEFAULT NULL,
@@ -52,7 +52,7 @@ pipeline {
 						
 						
 					sqlconnection().execute'''
-						CREATE TABLE employees_final (
+						CREATE TABLE employees_prod (
 							employee_id INT NOT NULL PRIMARY KEY,
 							name_prefix VARCHAR (20) DEFAULT NULL,
 							first_name VARCHAR (20) DEFAULT NULL,
@@ -80,9 +80,9 @@ pipeline {
 							manager_id INT DEFAULT NULL,
 							department_id INT DEFAULT NULL,
 							quarter_of_joining VARCHAR (20) DEFAULT NULL,
-							FOREIGN KEY (job_id) REFERENCES jobs_final (job_id),
-							FOREIGN KEY (department_id) REFERENCES departments_final (department_id),
-							FOREIGN KEY (manager_id) REFERENCES employees_final (employee_id)
+							FOREIGN KEY (job_id) REFERENCES jobs_prod (job_id),
+							FOREIGN KEY (department_id) REFERENCES departments_prod (department_id),
+							FOREIGN KEY (manager_id) REFERENCES employees_prod (employee_id)
 					);
 						'''
 		
@@ -94,16 +94,16 @@ pipeline {
                 script{
 	
 					sqlconnection().execute'''
-						INSERT INTO departments_final
-						SELECT * FROM departments
+						INSERT INTO departments_prod
+						SELECT * FROM departments_staging
 					'''
 					sqlconnection().execute'''
-						INSERT INTO jobs_final
-						SELECT * FROM jobs
+						INSERT INTO jobs_prod
+						SELECT * FROM jobs_staging
 					'''
 					sqlconnection().execute'''
-						INSERT INTO employees_final
-						SELECT * FROM staff_u;
+						INSERT INTO employees_prod
+						SELECT * FROM employees_view;
 					'''
 					
 		}}}
