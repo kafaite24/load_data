@@ -82,7 +82,7 @@ pipeline {
 							manager_id INT DEFAULT NULL,
 							department_id INT DEFAULT NULL,
 							quarter_of_joining VARCHAR (20) DEFAULT NULL,
-							DateAdded Date,
+							DateAdded Date FORMAT 'DD/MM/YYYY',
 							FOREIGN KEY (job_id) REFERENCES jobs_prod (job_id),
 							FOREIGN KEY (department_id) REFERENCES departments_prod (department_id),
 							FOREIGN KEY (manager_id) REFERENCES employees_prod (employee_id)
