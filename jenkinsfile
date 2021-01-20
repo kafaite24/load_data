@@ -7,54 +7,41 @@ pipeline {
 		stage('Create final tables'){
 			 steps{
                 script{
-					sqlconnection().eachRow("SELECT COUNT(*) as output FROM dbc.TABLES WHERE TABLENAME = 'employees_prod' and databasename='KH255051'") { row ->
-					def table= "$row.output"
-				
-					if("${table}"=="1"){
-						sqlconnection().execute'''
-							drop table employees_prod
-						'''
-					}}
+					
 					
 					sqlconnection().eachRow("SELECT COUNT(*) as output FROM dbc.TABLES WHERE TABLENAME = 'departments_prod' and databasename='KH255051'") { row ->
 					def table= "$row.output"
 			
-					if("${table}"=="1"){
+					if("${table}"=="0"){
 						sqlconnection().execute'''
-							drop table departments_prod
-						'''
-					}}
-					
-					sqlconnection().eachRow("SELECT COUNT(*) as output FROM dbc.TABLES WHERE TABLENAME = 'jobs_prod' and databasename='KH255051'") { row ->
-					def table= "$row.output"
-			
-					if("${table}"=="1"){
-						sqlconnection().execute'''
-							drop table jobs_prod
-						'''
-					}}
-					
-					sqlconnection().execute'''
-							CREATE TABLE departments_prod (
+							CREATE Multiset TABLE departments_prod (
 								department_id INT NOT NULL PRIMARY KEY,
 								department_name VARCHAR (30) NOT NULL,
 								location VARCHAR (100) DEFAULT NULL,
 								DateAdded Date);
 							'''
-						
-
-					sqlconnection().execute'''
-							CREATE TABLE jobs_prod (
+					}}
+					
+					sqlconnection().eachRow("SELECT COUNT(*) as output FROM dbc.TABLES WHERE TABLENAME = 'jobs_prod' and databasename='KH255051'") { row ->
+					def table= "$row.output"
+			
+					if("${table}"=="0"){
+						sqlconnection().execute'''
+							CREATE Multiset TABLE jobs_prod (
 								job_id INT NOT NULL PRIMARY KEY,
 								job_title VARCHAR (35) NOT NULL,
 								min_salary DECIMAL (8, 2) DEFAULT NULL,
 								max_salary DECIMAL (8, 2) DEFAULT NULL,
 								DateAdded Date);
 							'''
-						
-						
-					sqlconnection().execute'''
-						CREATE TABLE employees_prod (
+					}}
+					
+					sqlconnection().eachRow("SELECT COUNT(*) as output FROM dbc.TABLES WHERE TABLENAME = 'employees_prod' and databasename='KH255051'") { row ->
+					def table= "$row.output"
+				
+					if("${table}"=="0"){
+						sqlconnection().execute'''
+						CREATE Multiset TABLE employees_prod (
 							employee_id INT NOT NULL PRIMARY KEY,
 							name_prefix VARCHAR (20) DEFAULT NULL,
 							first_name VARCHAR (20) DEFAULT NULL,
@@ -87,7 +74,7 @@ pipeline {
 							FOREIGN KEY (manager_id) REFERENCES employees_prod (employee_id)
 					);
 						'''
-		
+					}}
 					}
 				}
 		}
@@ -107,13 +94,9 @@ pipeline {
 						INSERT INTO employees_prod
 						SELECT * FROM employees_view;
 					'''
-					
-		}}}
-		
-		}
+		}}}		}
 	
 }
-
 @NonCPS
     def sqlconnection() {
         String URL = "jdbc:teradata://wbtlabserver.teradata.com/KH255051";
